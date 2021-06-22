@@ -1,0 +1,7 @@
+#配置文件
+#一般放置数据库，软件系统用户名、密码、host等信息
+#格式：
+user:
+ username: tay
+ password: 123
+ url: http://123.57.140.190/manage

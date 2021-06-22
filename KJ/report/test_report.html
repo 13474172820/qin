@@ -1,0 +1,927 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>自动化测试框架</title>
+    <meta name="generator" content="HTMLTestRunner 0.8.2.2"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <script src="http://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    
+<style type="text/css" media="screen">
+body        { font-family: Microsoft YaHei,Tahoma,arial,helvetica,sans-serif;padding: 20px; font-size: 120%; }
+table       { font-size: 100%; }
+/* -- heading ---------------------------------------------------------------------- */
+.heading {
+    margin-top: 0ex;
+    margin-bottom: 1ex;
+}
+.heading .description {
+    margin-top: 4ex;
+    margin-bottom: 6ex;
+}
+/* -- report ------------------------------------------------------------------------ */
+#total_row  { font-weight: bold; }
+.passCase   { color: #5cb85c; }
+.failCase   { color: #d9534f; font-weight: bold; }
+.errorCase  { color: #f0ad4e; font-weight: bold; }
+.hiddenRow  { display: none; }
+.testcase   { margin-left: 2em; }
+</style>
+
+</head>
+<body >
+<script language="javascript" type="text/javascript">
+output_list = Array();
+/*level 调整增加只显示通过用例的分类 --Findyou
+0:Summary //all hiddenRow
+1:Failed  //pt hiddenRow, ft none
+2:Pass    //pt none, ft hiddenRow
+3:All     //pt none, ft none
+*/
+function showCase(level) {
+    trs = document.getElementsByTagName("tr");
+    for (var i = 0; i < trs.length; i++) {
+        tr = trs[i];
+        id = tr.id;
+        if (id.substr(0,2) == 'ft') {
+            if (level == 2 || level == 0 ) {
+                tr.className = 'hiddenRow';
+            }
+            else {
+                tr.className = '';
+            }
+        }
+        if (id.substr(0,2) == 'pt') {
+            if (level < 2) {
+                tr.className = 'hiddenRow';
+            }
+            else {
+                tr.className = '';
+            }
+        }
+    }
+    //加入【详细】切换文字变化 --Findyou
+    detail_class=document.getElementsByClassName('detail');
+	//console.log(detail_class.length)
+	if (level == 3) {
+		for (var i = 0; i < detail_class.length; i++){
+			detail_class[i].innerHTML="收起"
+		}
+	}
+	else{
+			for (var i = 0; i < detail_class.length; i++){
+			detail_class[i].innerHTML="详细"
+		}
+	}
+}
+function showClassDetail(cid, count) {
+    var id_list = Array(count);
+    var toHide = 1;
+    for (var i = 0; i < count; i++) {
+        //ID修改 点 为 下划线 -Findyou
+        tid0 = 't' + cid.substr(1) + '_' + (i+1);
+        tid = 'f' + tid0;
+        tr = document.getElementById(tid);
+        if (!tr) {
+            tid = 'p' + tid0;
+            tr = document.getElementById(tid);
+        }
+        id_list[i] = tid;
+        if (tr.className) {
+            toHide = 0;
+        }
+    }
+    for (var i = 0; i < count; i++) {
+        tid = id_list[i];
+        //修改点击无法收起的BUG，加入【详细】切换文字变化 --Findyou
+        if (toHide) {
+            document.getElementById(tid).className = 'hiddenRow';
+            document.getElementById(cid).innerText = "详细"
+        }
+        else {
+            document.getElementById(tid).className = '';
+            document.getElementById(cid).innerText = "收起"
+        }
+    }
+}
+function html_escape(s) {
+    s = s.replace(/&/g,'&amp;');
+    s = s.replace(/</g,'&lt;');
+    s = s.replace(/>/g,'&gt;');
+    return s;
+}
+</script>
+<div class='heading'>
+<h1 style="font-family: Microsoft YaHei">自动化测试框架</h1>
+<p class='attribute'><strong>测试人员 : </strong> Tay</p>
+<p class='attribute'><strong>开始时间 : </strong> 2021-06-16 16:50:28</p>
+<p class='attribute'><strong>合计耗时 : </strong> 0:05:22.432643</p>
+<p class='attribute'><strong>测试结果 : </strong> 共 40，通过 20，失败 4，错误 16，通过率= 50.00%</p>
+
+<p class='description'>溯源测试报告</p>
+</div>
+
+
+<p id='show_detail_line'>
+<a class="btn btn-primary" href='javascript:showCase(0)'>概要{ 50.00% }</a>
+<a class="btn btn-danger" href='javascript:showCase(1)'>失败{ 4 }</a>
+<a class="btn btn-success" href='javascript:showCase(2)'>通过{ 20 }</a>
+<a class="btn btn-info" href='javascript:showCase(3)'>所有{ 40 }</a>
+</p>
+<table id='result_table' class="table table-condensed table-bordered table-hover">
+<colgroup>
+<col align='left' />
+<col align='right' />
+<col align='right' />
+<col align='right' />
+<col align='right' />
+<col align='right' />
+</colgroup>
+<tr id='header_row' class="text-center success" style="font-weight: bold;font-size: 16px;">
+    <td>用例集/测试用例</td>
+    <td>总计</td>
+    <td>通过</td>
+    <td>失败</td>
+    <td>错误</td>
+    <td>详细</td>
+</tr>
+
+<tr class='errorClass warning'>
+    <td>test_01product_management.Test_cpgl</td>
+    <td class="text-center">6</td>
+    <td class="text-center">5</td>
+    <td class="text-center">0</td>
+    <td class="text-center">1</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c1',6)" class="detail" id='c1'>详细</a></td>
+</tr>
+
+<tr id='pt1_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test1_add_product1</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt1_2' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test2_add_product2</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt1_3' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test3_add_product3</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt1_4' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test4_delete_one</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt1_5' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test5_delete_many</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='ft1_6' class='none'>
+    <td class='errorCase'><div class='testcase'>test6_change</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft1_6' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft1_6'>错误</button>
+    <div id='div_ft1_6' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft1_6' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft1_6'>错误</button>
+    <div id='div_ft1_6' class="collapse in" align="left">
+    <pre>
+    
+ft1_6: Traceback (most recent call last):
+  File "C:\Users\asus\PycharmProjects\Test-wang\KJ\test_case\test_01product_management.py", line 93, in test6_change
+    self.dl.web.find_element_by_xpath('/html/body/section/section/section/form/div/div/section/table/tbody/tr[1]/td[8]/a').click()
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 394, in find_element_by_xpath
+    return self.find_element(by=By.XPATH, value=xpath)
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 978, in find_element
+    'value': value})['value']
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 321, in execute
+    self.error_handler.check_response(response)
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 242, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.NoSuchElementException: Message: Unable to locate element: /html/body/section/section/section/form/div/div/section/table/tbody/tr[1]/td[8]/a
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr class='errorClass warning'>
+    <td>test_02FWM_management.Test_FWMGL</td>
+    <td class="text-center">7</td>
+    <td class="text-center">1</td>
+    <td class="text-center">3</td>
+    <td class="text-center">3</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c2',7)" class="detail" id='c2'>详细</a></td>
+</tr>
+
+<tr id='ft2_1' class='none'>
+    <td class='failCase'><div class='testcase'>test1_increaseFWM_many</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft2_1' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft2_1'>失败</button>
+    <div id='div_ft2_1' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft2_1' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft2_1'>失败</button>
+    <div id='div_ft2_1' class="collapse in" align="left">
+    <pre>
+    
+ft2_1: Traceback (most recent call last):
+  File "C:\Users\asus\PycharmProjects\Test-wang\KJ\test_case\test_02FWM_management.py", line 42, in test1_increaseFWM_many
+    self.assertIn('恭喜，已成功生成50个防伪码！',self.dl.web.find_element_by_xpath('/html/body/div[3]/div').text,msg='失败')
+AssertionError: '恭喜，已成功生成50个防伪码！' not found in '请先添加产品' : 失败
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft2_2' class='none'>
+    <td class='failCase'><div class='testcase'>test2_increaseFWM_one</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft2_2' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft2_2'>失败</button>
+    <div id='div_ft2_2' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft2_2' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft2_2'>失败</button>
+    <div id='div_ft2_2' class="collapse in" align="left">
+    <pre>
+    
+ft2_2: Traceback (most recent call last):
+  File "C:\Users\asus\PycharmProjects\Test-wang\KJ\test_case\test_02FWM_management.py", line 56, in test2_increaseFWM_one
+    self.assertIn('恭喜，成功生成一个防伪码！',self.dl.web.find_element_by_xpath('/html/body/div[3]/div').text,msg='失败')
+AssertionError: '恭喜，成功生成一个防伪码！' not found in '请先添加产品' : 失败
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft2_3' class='none'>
+    <td class='failCase'><div class='testcase'>test3_increaseFWM_one_cover</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft2_3' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft2_3'>失败</button>
+    <div id='div_ft2_3' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft2_3' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft2_3'>失败</button>
+    <div id='div_ft2_3' class="collapse in" align="left">
+    <pre>
+    
+ft2_3: Traceback (most recent call last):
+  File "C:\Users\asus\PycharmProjects\Test-wang\KJ\test_case\test_02FWM_management.py", line 71, in test3_increaseFWM_one_cover
+    self.assertIn('防伪码有重复！!',self.dl.web.find_element_by_xpath('/html/body/div[3]/div').text,msg='失败')
+AssertionError: '防伪码有重复！!' not found in '请先添加产品' : 失败
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft2_4' class='none'>
+    <td class='errorCase'><div class='testcase'>test4_changeFWM</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft2_4' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft2_4'>错误</button>
+    <div id='div_ft2_4' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft2_4' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft2_4'>错误</button>
+    <div id='div_ft2_4' class="collapse in" align="left">
+    <pre>
+    
+ft2_4: Traceback (most recent call last):
+  File "C:\Users\asus\PycharmProjects\Test-wang\KJ\test_case\test_02FWM_management.py", line 79, in test4_changeFWM
+    self.dl.web.find_element_by_xpath('/html/body/section/section/section/div[1]/div/section/div/form/div[2]/div[1]/div/div[2]/div/div[2]/div[3]').click()
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 394, in find_element_by_xpath
+    return self.find_element(by=By.XPATH, value=xpath)
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 978, in find_element
+    'value': value})['value']
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 321, in execute
+    self.error_handler.check_response(response)
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 242, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.NoSuchElementException: Message: Unable to locate element: /html/body/section/section/section/div[1]/div/section/div/form/div[2]/div[1]/div/div[2]/div/div[2]/div[3]
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt2_5' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test5_changeFWMZT</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='ft2_6' class='none'>
+    <td class='errorCase'><div class='testcase'>test_7_delete</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft2_6' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft2_6'>错误</button>
+    <div id='div_ft2_6' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft2_6' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft2_6'>错误</button>
+    <div id='div_ft2_6' class="collapse in" align="left">
+    <pre>
+    
+ft2_6: Traceback (most recent call last):
+  File "C:\Users\asus\PycharmProjects\Test-wang\KJ\test_case\test_02FWM_management.py", line 119, in test_7_delete
+    self.dl.click(['/html/body/section/section/section/div[1]/div/section/div/form/div[1]/div[1]/div/div[2]/div/div[2]/div[2]','/html/body/section/section/section/div[1]/div/section/div/form/div[2]/div/button'])
+  File "C:\Users\asus\PycharmProjects\Test-wang\KJ\common\log_in.py", line 21, in click
+    self.web.find_element_by_xpath(d).click()
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\webelement.py", line 80, in click
+    self._execute(Command.CLICK_ELEMENT)
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\webelement.py", line 633, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 321, in execute
+    self.error_handler.check_response(response)
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 242, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.ElementNotInteractableException: Message: Element &lt;div class="searchable-select-item searchable-select-hide"&gt; could not be scrolled into view
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft2_7' class='none'>
+    <td class='errorCase'><div class='testcase'>test_8_delete1</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft2_7' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft2_7'>错误</button>
+    <div id='div_ft2_7' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft2_7' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft2_7'>错误</button>
+    <div id='div_ft2_7' class="collapse in" align="left">
+    <pre>
+    
+ft2_7: Traceback (most recent call last):
+  File "C:\Users\asus\PycharmProjects\Test-wang\KJ\test_case\test_02FWM_management.py", line 125, in test_8_delete1
+    self.dl.click(['/html/body/section/section/section/div[1]/div/section/div/form/div[1]/div[1]/div/div[2]/div/div[2]/div[62]','/html/body/section/section/section/div[1]/div/section/div/form/div[2]/div/button'])
+  File "C:\Users\asus\PycharmProjects\Test-wang\KJ\common\log_in.py", line 21, in click
+    self.web.find_element_by_xpath(d).click()
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\webelement.py", line 80, in click
+    self._execute(Command.CLICK_ELEMENT)
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\webelement.py", line 633, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 321, in execute
+    self.error_handler.check_response(response)
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 242, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.ElementNotInteractableException: Message: Element &lt;div class="searchable-select-item searchable-select-hide"&gt; could not be scrolled into view
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr class='errorClass warning'>
+    <td>test_03LC_management.Test_LCGL</td>
+    <td class="text-center">8</td>
+    <td class="text-center">5</td>
+    <td class="text-center">0</td>
+    <td class="text-center">3</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c3',8)" class="detail" id='c3'>详细</a></td>
+</tr>
+
+<tr id='pt3_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test1_add</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt3_2' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test2_add1</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt3_3' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test3_change</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt3_4' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test4_delete_one</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='ft3_5' class='none'>
+    <td class='errorCase'><div class='testcase'>test5_delete_many</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft3_5' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft3_5'>错误</button>
+    <div id='div_ft3_5' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft3_5' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft3_5'>错误</button>
+    <div id='div_ft3_5' class="collapse in" align="left">
+    <pre>
+    
+ft3_5: Traceback (most recent call last):
+  File "C:\Users\asus\PycharmProjects\Test-wang\KJ\test_case\test_03LC_management.py", line 66, in test5_delete_many
+    self.dl.web.find_element_by_xpath('//*[@id="chk[]"]').click()
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 394, in find_element_by_xpath
+    return self.find_element(by=By.XPATH, value=xpath)
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 978, in find_element
+    'value': value})['value']
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 321, in execute
+    self.error_handler.check_response(response)
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 242, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.NoSuchElementException: Message: Unable to locate element: //*[@id="chk[]"]
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt3_6' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test6_sousuo</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='ft3_7' class='none'>
+    <td class='errorCase'><div class='testcase'>test7_add_LCJL</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft3_7' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft3_7'>错误</button>
+    <div id='div_ft3_7' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft3_7' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft3_7'>错误</button>
+    <div id='div_ft3_7' class="collapse in" align="left">
+    <pre>
+    
+ft3_7: Traceback (most recent call last):
+  File "C:\Users\asus\PycharmProjects\Test-wang\KJ\test_case\test_03LC_management.py", line 87, in test7_add_LCJL
+    self.dl.web.find_element_by_xpath('/html/body/section/section/section/div/div/section/div/form/div[1]/div[1]/div/div[2]/div/div[2]/div[5]').click()
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 394, in find_element_by_xpath
+    return self.find_element(by=By.XPATH, value=xpath)
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 978, in find_element
+    'value': value})['value']
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 321, in execute
+    self.error_handler.check_response(response)
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 242, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.NoSuchElementException: Message: Unable to locate element: /html/body/section/section/section/div/div/section/div/form/div[1]/div[1]/div/div[2]/div/div[2]/div[5]
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft3_8' class='none'>
+    <td class='errorCase'><div class='testcase'>test8_change</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft3_8' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft3_8'>错误</button>
+    <div id='div_ft3_8' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft3_8' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft3_8'>错误</button>
+    <div id='div_ft3_8' class="collapse in" align="left">
+    <pre>
+    
+ft3_8: Traceback (most recent call last):
+  File "C:\Users\asus\PycharmProjects\Test-wang\KJ\test_case\test_03LC_management.py", line 103, in test8_change
+    self.dl.web.find_element_by_xpath('/html/body/section/section/section/div/div/section/div/form/div[1]/div[1]/div/div[2]/div/div[2]/div[6]').click()
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 394, in find_element_by_xpath
+    return self.find_element(by=By.XPATH, value=xpath)
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 978, in find_element
+    'value': value})['value']
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 321, in execute
+    self.error_handler.check_response(response)
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 242, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.NoSuchElementException: Message: Unable to locate element: /html/body/section/section/section/div/div/section/div/form/div[1]/div[1]/div/div[2]/div/div[2]/div[6]
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>test_04suyuanshilieguanli.Test_SYGL</td>
+    <td class="text-center">5</td>
+    <td class="text-center">5</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c4',5)" class="detail" id='c4'>详细</a></td>
+</tr>
+
+<tr id='pt4_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test1_add</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt4_2' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test2_look</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt4_3' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test3_change</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt4_4' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test4_delete_one</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt4_5' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test5_delete_many</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='errorClass warning'>
+    <td>test_05zhuangxiangguanli.Test_ZXGL</td>
+    <td class="text-center">9</td>
+    <td class="text-center">2</td>
+    <td class="text-center">1</td>
+    <td class="text-center">6</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c5',9)" class="detail" id='c5'>详细</a></td>
+</tr>
+
+<tr id='pt5_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test0_add_product</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='ft5_2' class='none'>
+    <td class='errorCase'><div class='testcase'>test1_add_wuliuma_one</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft5_2' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft5_2'>错误</button>
+    <div id='div_ft5_2' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft5_2' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft5_2'>错误</button>
+    <div id='div_ft5_2' class="collapse in" align="left">
+    <pre>
+    
+ft5_2: Traceback (most recent call last):
+  File "C:\Users\asus\PycharmProjects\Test-wang\KJ\test_case\test_05zhuangxiangguanli.py", line 35, in test1_add_wuliuma_one
+    self.dl.click(['/html/body/section/section/section/div/div/section/div/form/div[5]/div[1]/div/div[2]/div/div[2]/div[3]'])
+  File "C:\Users\asus\PycharmProjects\Test-wang\KJ\common\log_in.py", line 21, in click
+    self.web.find_element_by_xpath(d).click()
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\webelement.py", line 80, in click
+    self._execute(Command.CLICK_ELEMENT)
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\webelement.py", line 633, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 321, in execute
+    self.error_handler.check_response(response)
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 242, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.ElementNotInteractableException: Message: Element &lt;div class="searchable-select-item searchable-select-hide"&gt; could not be scrolled into view
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft5_3' class='none'>
+    <td class='failCase'><div class='testcase'>test2_zhuang_one</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft5_3' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft5_3'>失败</button>
+    <div id='div_ft5_3' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft5_3' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft5_3'>失败</button>
+    <div id='div_ft5_3' class="collapse in" align="left">
+    <pre>
+    
+ft5_3: Traceback (most recent call last):
+  File "C:\Users\asus\PycharmProjects\Test-wang\KJ\test_case\test_05zhuangxiangguanli.py", line 45, in test2_zhuang_one
+    self.assertIn('装箱成功！',self.dl.web.find_element_by_xpath('/html/body/div[3]/div').text,msg='失败')
+AssertionError: '装箱成功！' not found in '物流码 612430612430 不存在' : 失败
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft5_4' class='none'>
+    <td class='errorCase'><div class='testcase'>test3_sm_in_big</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft5_4' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft5_4'>错误</button>
+    <div id='div_ft5_4' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft5_4' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft5_4'>错误</button>
+    <div id='div_ft5_4' class="collapse in" align="left">
+    <pre>
+    
+ft5_4: Traceback (most recent call last):
+  File "C:\Users\asus\PycharmProjects\Test-wang\KJ\test_case\test_05zhuangxiangguanli.py", line 50, in test3_sm_in_big
+    self.dl.click(['/html/body/section/section/section/div/div/section/div/form/button','/html/body/section/section/section/form/div/div/section/table/tbody/tr/td[7]/a'])
+  File "C:\Users\asus\PycharmProjects\Test-wang\KJ\common\log_in.py", line 21, in click
+    self.web.find_element_by_xpath(d).click()
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 394, in find_element_by_xpath
+    return self.find_element(by=By.XPATH, value=xpath)
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 978, in find_element
+    'value': value})['value']
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 321, in execute
+    self.error_handler.check_response(response)
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 242, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.NoSuchElementException: Message: Unable to locate element: /html/body/section/section/section/form/div/div/section/table/tbody/tr/td[7]/a
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft5_5' class='none'>
+    <td class='errorCase'><div class='testcase'>test4_change_bigbox</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft5_5' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft5_5'>错误</button>
+    <div id='div_ft5_5' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft5_5' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft5_5'>错误</button>
+    <div id='div_ft5_5' class="collapse in" align="left">
+    <pre>
+    
+ft5_5: Traceback (most recent call last):
+  File "C:\Users\asus\PycharmProjects\Test-wang\KJ\test_case\test_05zhuangxiangguanli.py", line 64, in test4_change_bigbox
+    self.dl.click(['/html/body/section/section/section/div/div/section/div/form/button','/html/body/section/section/section/form/div/div/section/table/tbody/tr/td[7]/a'])
+  File "C:\Users\asus\PycharmProjects\Test-wang\KJ\common\log_in.py", line 21, in click
+    self.web.find_element_by_xpath(d).click()
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 394, in find_element_by_xpath
+    return self.find_element(by=By.XPATH, value=xpath)
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 978, in find_element
+    'value': value})['value']
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 321, in execute
+    self.error_handler.check_response(response)
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 242, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.NoSuchElementException: Message: Unable to locate element: /html/body/section/section/section/form/div/div/section/table/tbody/tr/td[7]/a
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft5_6' class='none'>
+    <td class='errorCase'><div class='testcase'>test5_cancel_bigbox</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft5_6' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft5_6'>错误</button>
+    <div id='div_ft5_6' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft5_6' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft5_6'>错误</button>
+    <div id='div_ft5_6' class="collapse in" align="left">
+    <pre>
+    
+ft5_6: Traceback (most recent call last):
+  File "C:\Users\asus\PycharmProjects\Test-wang\KJ\test_case\test_05zhuangxiangguanli.py", line 80, in test5_cancel_bigbox
+    self.dl.click(['/html/body/section/section/section/div/div/section/div/form/button','/html/body/section/section/section/form/div/div/section/table/tbody/tr/td[7]/a'])
+  File "C:\Users\asus\PycharmProjects\Test-wang\KJ\common\log_in.py", line 21, in click
+    self.web.find_element_by_xpath(d).click()
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 394, in find_element_by_xpath
+    return self.find_element(by=By.XPATH, value=xpath)
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 978, in find_element
+    'value': value})['value']
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 321, in execute
+    self.error_handler.check_response(response)
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 242, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.NoSuchElementException: Message: Unable to locate element: /html/body/section/section/section/form/div/div/section/table/tbody/tr/td[7]/a
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft5_7' class='none'>
+    <td class='errorCase'><div class='testcase'>test6_cancel_smbox</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft5_7' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft5_7'>错误</button>
+    <div id='div_ft5_7' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft5_7' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft5_7'>错误</button>
+    <div id='div_ft5_7' class="collapse in" align="left">
+    <pre>
+    
+ft5_7: Traceback (most recent call last):
+  File "C:\Users\asus\PycharmProjects\Test-wang\KJ\test_case\test_05zhuangxiangguanli.py", line 94, in test6_cancel_smbox
+    self.dl.click(['/html/body/section/section/section/div/div/section/div/form/button','//*[@id="chk[]"]','/html/body/section/section/section/form/div/div/section/table/tbody/tr[1]/td[7]/span','/html/body/div[4]/div[3]/a[1]'])
+  File "C:\Users\asus\PycharmProjects\Test-wang\KJ\common\log_in.py", line 21, in click
+    self.web.find_element_by_xpath(d).click()
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 394, in find_element_by_xpath
+    return self.find_element(by=By.XPATH, value=xpath)
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 978, in find_element
+    'value': value})['value']
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 321, in execute
+    self.error_handler.check_response(response)
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 242, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.NoSuchElementException: Message: Unable to locate element: //*[@id="chk[]"]
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt5_8' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test8_delete_addone</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='ft5_9' class='none'>
+    <td class='errorCase'><div class='testcase'>test_7_deleteWLM</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft5_9' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft5_9'>错误</button>
+    <div id='div_ft5_9' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft5_9' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft5_9'>错误</button>
+    <div id='div_ft5_9' class="collapse in" align="left">
+    <pre>
+    
+ft5_9: Traceback (most recent call last):
+  File "C:\Users\asus\PycharmProjects\Test-wang\KJ\test_case\test_05zhuangxiangguanli.py", line 100, in test_7_deleteWLM
+    self.dl.click(['/html/body/section/section/section/div[1]/div/section/div/form/div[1]/div[1]/div/div[2]/div/div[2]/div[1]','/html/body/section/section/section/div[1]/div/section/div/form/div[2]/div/button'])
+  File "C:\Users\asus\PycharmProjects\Test-wang\KJ\common\log_in.py", line 21, in click
+    self.web.find_element_by_xpath(d).click()
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\webelement.py", line 80, in click
+    self._execute(Command.CLICK_ELEMENT)
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\webelement.py", line 633, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 321, in execute
+    self.error_handler.check_response(response)
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 242, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.ElementNotInteractableException: Message: Element &lt;div class="searchable-select-item selected searchable-select-hide"&gt; could not be scrolled into view
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr class='errorClass warning'>
+    <td>test_06fahuoguanli.Test_FHGL</td>
+    <td class="text-center">5</td>
+    <td class="text-center">2</td>
+    <td class="text-center">0</td>
+    <td class="text-center">3</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c6',5)" class="detail" id='c6'>详细</a></td>
+</tr>
+
+<tr id='pt6_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test0_add_product</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='ft6_2' class='none'>
+    <td class='errorCase'><div class='testcase'>test1_add_wuliuma_one</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft6_2' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft6_2'>错误</button>
+    <div id='div_ft6_2' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft6_2' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft6_2'>错误</button>
+    <div id='div_ft6_2' class="collapse in" align="left">
+    <pre>
+    
+ft6_2: Traceback (most recent call last):
+  File "C:\Users\asus\PycharmProjects\Test-wang\KJ\test_case\test_06fahuoguanli.py", line 36, in test1_add_wuliuma_one
+    self.dl.click(['/html/body/section/section/section/div/div/section/div/form/div[5]/div[1]/div/div[2]/div/div[2]/div[2]'])
+  File "C:\Users\asus\PycharmProjects\Test-wang\KJ\common\log_in.py", line 21, in click
+    self.web.find_element_by_xpath(d).click()
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\webelement.py", line 80, in click
+    self._execute(Command.CLICK_ELEMENT)
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\webelement.py", line 633, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 321, in execute
+    self.error_handler.check_response(response)
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 242, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.ElementNotInteractableException: Message: Element &lt;div class="searchable-select-item searchable-select-hide"&gt; could not be scrolled into view
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft6_3' class='none'>
+    <td class='errorCase'><div class='testcase'>test1_send_one</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft6_3' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft6_3'>错误</button>
+    <div id='div_ft6_3' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft6_3' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft6_3'>错误</button>
+    <div id='div_ft6_3' class="collapse in" align="left">
+    <pre>
+    
+ft6_3: Traceback (most recent call last):
+  File "C:\Users\asus\PycharmProjects\Test-wang\KJ\test_case\test_06fahuoguanli.py", line 47, in test1_send_one
+    self.dl.click(['/html/body/section/section/section/div/div/section/div/form/div[2]/div[1]/div/div[2]/div/div[2]/div[3]'])
+  File "C:\Users\asus\PycharmProjects\Test-wang\KJ\common\log_in.py", line 21, in click
+    self.web.find_element_by_xpath(d).click()
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\webelement.py", line 80, in click
+    self._execute(Command.CLICK_ELEMENT)
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\webelement.py", line 633, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 321, in execute
+    self.error_handler.check_response(response)
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 242, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.ElementNotInteractableException: Message: Element &lt;div class="searchable-select-item searchable-select-hide"&gt; could not be scrolled into view
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt6_4' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test8_delete_addone</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='ft6_5' class='none'>
+    <td class='errorCase'><div class='testcase'>test_7_deleteWLM</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft6_5' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft6_5'>错误</button>
+    <div id='div_ft6_5' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft6_5' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft6_5'>错误</button>
+    <div id='div_ft6_5' class="collapse in" align="left">
+    <pre>
+    
+ft6_5: Traceback (most recent call last):
+  File "C:\Users\asus\PycharmProjects\Test-wang\KJ\test_case\test_06fahuoguanli.py", line 56, in test_7_deleteWLM
+    self.dl.click(['/html/body/section/section/section/div[1]/div/section/div/form/div[1]/div[1]/div/div[2]/div/div[2]/div[1]','/html/body/section/section/section/div[1]/div/section/div/form/div[2]/div/button'])
+  File "C:\Users\asus\PycharmProjects\Test-wang\KJ\common\log_in.py", line 21, in click
+    self.web.find_element_by_xpath(d).click()
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\webelement.py", line 80, in click
+    self._execute(Command.CLICK_ELEMENT)
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\webelement.py", line 633, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 321, in execute
+    self.error_handler.check_response(response)
+  File "C:\Users\asus\PycharmProjects\Test-wang\venv\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 242, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.ElementNotInteractableException: Message: Element &lt;div class="searchable-select-item selected searchable-select-hide"&gt; could not be scrolled into view
+
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='total_row' class="text-center active">
+    <td>总计</td>
+    <td>40</td>
+    <td>20</td>
+    <td>4</td>
+    <td>16</td>
+    <td>通过率：50.00%</td>
+</tr>
+</table>
+
+<div id='ending'>&nbsp;</div>
+    <div style=" position:fixed;right:50px; bottom:30px; width:20px; height:20px;cursor:pointer">
+    <a href="#"><span class="glyphicon glyphicon-eject" style = "font-size:30px;" aria-hidden="true">
+    </span></a></div>
+    
+</body>
+</html>
