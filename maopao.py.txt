@@ -1,0 +1,6 @@
+list01 = [5, 65, 41, 1, 32, 8, 9, 89, 670]
+n = len(list01)
+for i in range(n):
+    for j in range(n - i - 1):
+        if list01[j] > list01[j + 1]:
+            list01[j], list01[j + 1] = list01[j + 1], list01[j]
